@@ -9,4 +9,5 @@ const firebaseApp = Firebase.initializeApp({
   messagingSenderId: '470963597272'
 })
 
-export const db = firebaseApp.database()
+export const database = firebaseApp.database()
+export const storage = firebaseApp.storage()

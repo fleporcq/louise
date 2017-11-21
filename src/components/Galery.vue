@@ -18,6 +18,7 @@
 </template>
 
 <script>
+  import Flickr from '../services/Flickr'
   import FlickrApiUrlGenerator from '../services/FlickrApiUrlGenerator'
   import Photo from '../models/Photo'
 
@@ -29,8 +30,7 @@
       }
     },
     computed: {
-      flickrUserId: () => '160317127@N06',
-      flickrApiUrlGenerator: () => new FlickrApiUrlGenerator('7b0e13ba3a3a2dae0d1f59e18e4c59d4')
+      flickr: () => new Flickr('7b0e13ba3a3a2dae0d1f59e18e4c59d4', '160317127@N06')
     },
     created () {
       this.fetchTags()
@@ -38,30 +38,24 @@
     },
     methods: {
       fetchTags () {
-        let url = this.flickrApiUrlGenerator.getUrl('flickr.tags.getListUser', {
-          user_id: this.flickrUserId
-        })
-        this.$http.get(url)
+        this.flickr.getUserTags({})
           .then(response => {
             this.tags = response.body.who.tags.tag
           })
       },
       fetchImages () {
-        let url = this.flickrApiUrlGenerator.getUrl('flickr.photos.search', {
-          user_id: this.flickrUserId,
+        this.flickr.searchPhotos({
           tags: '',
           extras: 'description'
+        }).then(response => {
+          for (let photo of response.body.photos.photo) {
+            this.photos.push(new Photo(
+              photo.title,
+              photo.description._content,
+              FlickrApiUrlGenerator.computeSrc(photo)
+            ))
+          }
         })
-        this.$http.get(url)
-          .then(response => {
-            for (let photo of response.body.photos.photo) {
-              this.photos.push(new Photo(
-                photo.title,
-                photo.description._content,
-                FlickrApiUrlGenerator.computeSrc(photo)
-              ))
-            }
-          })
       }
     }
   }

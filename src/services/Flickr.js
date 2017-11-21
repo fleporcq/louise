@@ -1,5 +1,5 @@
 import FlickrApiUrlGenerator from '../services/FlickrApiUrlGenerator'
-import Vue from 'vue'
+import http from 'request-promise'
 
 export default class Flickr {
   constructor (apiKey, userId) {
@@ -12,14 +12,18 @@ export default class Flickr {
       tags: '',
       extras: 'description'
     }
-    let url = this.urlGenerator.getUrl('flickr.photos.search', Object.assign(defaultParams, params))
-    return Vue.http.get(url)
+    return http({
+      uri: this.urlGenerator.getUrl('flickr.photos.search', Object.assign(defaultParams, params)),
+      json: true
+    })
   }
   getUserTags (params) {
     let defaultParams = {
       user_id: this.userId
     }
-    let url = this.urlGenerator.getUrl('flickr.tags.getListUser', Object.assign(defaultParams, params))
-    return Vue.http.get(url)
+    return http({
+      uri: this.urlGenerator.getUrl('flickr.tags.getListUser', Object.assign(defaultParams, params)),
+      json: true
+    })
   }
 }

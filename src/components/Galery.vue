@@ -19,7 +19,6 @@
 
 <script>
   import Flickr from '../services/Flickr'
-  import FlickrApiUrlGenerator from '../services/FlickrApiUrlGenerator'
   import Photo from '../models/Photo'
 
   export default {
@@ -40,7 +39,7 @@
       fetchTags () {
         this.flickr.getUserTags({})
           .then(response => {
-            this.tags = response.body.who.tags.tag
+            this.tags = response.who.tags.tag
           })
       },
       fetchImages () {
@@ -48,11 +47,11 @@
           tags: '',
           extras: 'description'
         }).then(response => {
-          for (let photo of response.body.photos.photo) {
+          for (let photo of response.photos.photo) {
             this.photos.push(new Photo(
               photo.title,
               photo.description._content,
-              FlickrApiUrlGenerator.computeSrc(photo)
+              Photo.generateFlickrSrc(photo)
             ))
           }
         })

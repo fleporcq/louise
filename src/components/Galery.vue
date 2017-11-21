@@ -9,6 +9,8 @@
     <ul v-for="photo in photos">
       <li>
         <img :src="photo.src"><br>
+        <span>{{photo.title}}</span><br>
+        <span>{{photo.description}}</span><br>
         {{photo}}
       </li>
     </ul>
@@ -16,6 +18,9 @@
 </template>
 
 <script>
+  import FlickrApiUrlGenerator from '../services/FlickrApiUrlGenerator'
+  import Photo from '../models/Photo'
+
   export default {
     data () {
       return {
@@ -23,26 +28,38 @@
         photos: []
       }
     },
+    computed: {
+      flickrUserId: () => '160317127@N06',
+      flickrApiUrlGenerator: () => new FlickrApiUrlGenerator('7b0e13ba3a3a2dae0d1f59e18e4c59d4')
+    },
     created () {
       this.fetchTags()
       this.fetchImages()
     },
     methods: {
       fetchTags () {
-        this.$http.get('https://api.flickr.com/services/rest/?method=flickr.tags.getListUser&api_key=7b0e13ba3a3a2dae0d1f59e18e4c59d4&user_id=160317127%40N06&format=json&nojsoncallback=1')
+        let url = this.flickrApiUrlGenerator.getUrl('flickr.tags.getListUser', {
+          user_id: this.flickrUserId
+        })
+        this.$http.get(url)
           .then(response => {
             this.tags = response.body.who.tags.tag
           })
       },
       fetchImages () {
-        let tags = ''
-        this.$http.get('https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=7b0e13ba3a3a2dae0d1f59e18e4c59d4&user_id=160317127%40N06&tags=' + tags + '&format=json&nojsoncallback=1')
+        let url = this.flickrApiUrlGenerator.getUrl('flickr.photos.search', {
+          user_id: this.flickrUserId,
+          tags: '',
+          extras: 'description'
+        })
+        this.$http.get(url)
           .then(response => {
             for (let photo of response.body.photos.photo) {
-              this.photos.push({
-                title: photo.title,
-                src: 'https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '.jpg'
-              })
+              this.photos.push(new Photo(
+                photo.title,
+                photo.description._content,
+                FlickrApiUrlGenerator.computeSrc(photo)
+              ))
             }
           })
       }

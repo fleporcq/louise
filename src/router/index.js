@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
-import Galerie from '@/components/Galerie'
+import Galery from '@/components/Galery'
 
 Vue.use(Router)
 
@@ -13,9 +13,9 @@ export default new Router({
       component: Home
     },
     {
-      path: '/galerie',
-      name: 'Galerie',
-      component: Galerie
+      path: '/galery',
+      name: 'Galery',
+      component: Galery
     }
   ]
 })

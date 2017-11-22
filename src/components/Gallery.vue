@@ -2,8 +2,9 @@
   <div>
     <h1>Galerie</h1>
     <h2>Tags</h2>
-    <ul v-for="tag in tags">
-      <li>{{tag._content}}</li>
+    <ul>
+      <li><router-link :to="{name: 'gallery-all'}">Tous</router-link></li>
+      <li v-for="tag in tags"><router-link :to="{ name: 'gallery-search', params: { tag: tag._content }}">{{tag._content}}</router-link></li>
     </ul>
     <h2>Photos</h2>
     <ul v-for="photo in photos">
@@ -11,7 +12,6 @@
         <img :src="photo.src"><br>
         <span>{{photo.title}}</span><br>
         <span>{{photo.description}}</span><br>
-        {{photo}}
       </li>
     </ul>
   </div>
@@ -29,11 +29,17 @@
       }
     },
     computed: {
-      flickr: () => new Flickr('7b0e13ba3a3a2dae0d1f59e18e4c59d4', '160317127@N06')
+      flickr: () => new Flickr('4e5407323228a7c7851ce6d7d650a15b', '154566401@N05')
     },
     created () {
       this.fetchTags()
-      this.fetchImages()
+      let tag = this.$route.params.tag
+      this.fetchPhotos(tag)
+    },
+    watch: {
+      '$route' (to, from) {
+        this.fetchPhotos(to.params.tag)
+      }
     },
     methods: {
       fetchTags () {
@@ -42,18 +48,20 @@
             this.tags = response.who.tags.tag
           })
       },
-      fetchImages () {
+      fetchPhotos (tag) {
         this.flickr.searchPhotos({
-          tags: '',
+          text: tag === undefined ? '' : tag,
           extras: 'description'
         }).then(response => {
+          let photos = []
           for (let photo of response.photos.photo) {
-            this.photos.push(new Photo(
+            photos.push(new Photo(
               photo.title,
               photo.description._content,
               Photo.generateFlickrSrc(photo)
             ))
           }
+          this.photos = photos
         })
       }
     }

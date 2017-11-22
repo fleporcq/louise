@@ -1,15 +1,12 @@
 <template>
   <div>
-    <h1>Galerie</h1>
-    <h2>Tags</h2>
     <ul>
       <li><router-link :to="{name: 'gallery-all'}">Tous</router-link></li>
       <li v-for="tag in tags"><router-link :to="{ name: 'gallery-search', params: { tag: tag._content }}">{{tag._content}}</router-link></li>
     </ul>
-    <h2>Photos</h2>
     <ul v-for="photo in photos">
       <li>
-        <img :src="photo.src"><br>
+        <img :src="photo.src" :key="photo.id"><br>
         <span>{{photo.title}}</span><br>
         <span>{{photo.description}}</span><br>
       </li>
@@ -56,6 +53,7 @@
           let photos = []
           for (let photo of response.photos.photo) {
             photos.push(new Photo(
+              photo.id,
               photo.title,
               photo.description._content,
               Photo.generateFlickrSrc(photo)

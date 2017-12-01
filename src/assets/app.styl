@@ -3,9 +3,62 @@ body
   padding 20px
   margin 0
   font-family Lato, HelveticaNeue-Light, "Helvetica Neue Light", "Helvetica Neue", Helvetica, arial, sans-serif
+
 .o-grid--demo
-    .o-grid
-      border 2px solid #ff69b4
-    .o-grid__cell
-      border 2px solid #00bfff
-      background-color #b2f5b5
+  .o-grid
+    border 2px solid #ff69b4
+  .o-grid__cell
+    border 2px solid #00bfff
+    background-color #b2f5b5
+
+.main-cell
+  width 300px
+
+.position-fixed
+  @media screen and (min-width: screen-limit-large)
+    width 270px
+    position fixed
+
+.brand
+  margin 20px 0 40px 0
+  text-align center
+  .brand__name
+    text-transform uppercase
+    color main-color
+    font-size 1.6em
+    letter-spacing 0.4em
+    margin 0 0 5px 0
+  .brand__baseline
+    text-transform uppercase
+    padding 0
+    color second-color
+    font-size 0.8em
+    letter-spacing 0.4em
+    font-weight 400
+    margin 0
+
+.menu__title
+  text-transform uppercase
+  padding 0
+  color main-color
+  font-size 1em
+  letter-spacing 0.2em
+  font-weight 400
+  margin 20px 0
+
+.menu__tags
+  list-style none
+  margin 0
+  padding 0
+  text-transform lowercase
+  font-size: 1.0em;
+  li
+    margin 5px 0
+    color second-color
+    a
+      color second-color
+      text-decoration none
+    a:hover
+      color main-color
+    a.router-link-exact-active
+      color third-color

@@ -1,12 +1,15 @@
 <template>
     <div class="masonry">
       <div class="masonry__item" v-for="photo in photos">
-        <div class="photo">
-          <img :src="photo.src" :key="photo.id">
-          <div class="photo__overlay">
-            <div class="photo__overlay__title">{{photo.title}}</div>
+        <figure>
+          <div class="photo">
+              <img :src="photo.src" :key="photo.id">
+              <div class="photo__overlay">
+                <div class="photo__overlay__title">{{photo.title}}</div>
+              </div>
           </div>
-        </div>
+          <figcaption>{{photo.title}}</figcaption>
+        </figure>
       </div>
     </div>
 </template>

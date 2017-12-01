@@ -8,7 +8,6 @@
   .masonry__item
     display inline-block
     box-sizing border-box
-    box-shadow 4px 4px 4px 0 #ccc
     margin 0 0 1.5em 0
 
 .photo
@@ -19,8 +18,16 @@
     display block
     max-width 100%
     height auto
+    box-shadow 4px 4px 4px 0 #ccc
     animation fadeIn 0.5s
-
+figure
+  padding 0
+  margin 0
+  figcaption
+    margin 10px 0 0 0
+    color main-color
+    @media screen and (min-width: screen-limit-large)
+      display none
 
 .photo__overlay
   position absolute
@@ -34,7 +41,8 @@
   opacity 0
 
 .photo__overlay:hover
-  animation fadeIn 0.5s forwards
+  @media screen and (min-width: screen-limit-large)
+    animation fadeIn 0.5s forwards
 
 .photo__overlay__title
   color #fff

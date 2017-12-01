@@ -6,7 +6,7 @@ export default class Photo {
     this.src = src
   }
 
-  static generateFlickrSrc (photo) {
-    return 'https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '.jpg'
+  static generateFlickrSrc (photo, size) {
+    return 'https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '_b.jpg'
   }
 }

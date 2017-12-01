@@ -11,6 +11,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "blaze": "^3.6.3",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "vue": "^2.5.2",

@@ -1,0 +1,93 @@
+.main-cell {
+  width: 300px;
+}
+
+.position-fixed
+  @media screen and (min-width: screen-limit-large)
+    width 270px
+    position fixed
+
+.brand
+  margin 20px 0 40px 0
+  text-align center
+  .brand__name
+    text-transform uppercase
+    color main-color
+    font-size 1.6em
+    letter-spacing 0.4em
+    margin 0 0 5px 0
+  .brand__baseline
+    text-transform uppercase
+    padding 0
+    color second-color
+    font-size 0.8em
+    letter-spacing 0.4em
+    font-weight 400
+    margin 0
+
+.photo
+  position relative
+  img
+    margin 0 auto
+    display block
+    max-width 100%
+    height auto
+    animation fadeIn 1s
+
+@keyframes fadeIn
+  from {
+    opacity 0
+  }
+  to {
+    opacity 1
+  }
+
+.menu__title
+  text-transform uppercase
+  padding 0
+  color main-color
+  font-size 1em
+  letter-spacing 0.2em
+  font-weight 400
+  margin 20px 0
+
+.menu__tags
+  list-style none
+  margin 0
+  padding 0
+  text-transform lowercase
+  font-size: 1.0em;
+  li
+    margin 5px 0
+    color second-color
+    a
+      color second-color
+      text-decoration none
+    a:hover
+      color main-color
+    a.router-link-exact-active
+      color third-color
+
+.photo__overlay
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: main-color;
+
+.photo__overlay:hover
+  opacity: 0.5;
+
+.photo__overlay__title
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);

@@ -6,6 +6,8 @@
           <h1 class="brand__name">{{profile.first_name}}</h1>
           <h2 class="brand__baseline">{{profile.occupation}}</h2>
         </div>
+        <label for="menu-trigger" class="menu-trigger-label"><i class="fa fa-bars" aria-hidden="true"></i></label>
+        <input type="checkbox" id="menu-trigger" class="menu-trigger" />
         <nav class="menu">
           <h3 class="menu__title">WORKS</h3>
           <ul class="menu__tags">
@@ -61,6 +63,7 @@
 </script>
 <style>
   @import '../node_modules/blaze/dist/blaze.min.css';
+  @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
   @import url('https://fonts.googleapis.com/css?family=Lato');
 </style>
 <style lang="styl">

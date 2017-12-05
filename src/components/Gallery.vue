@@ -1,6 +1,6 @@
 <template>
   <div>
-    <masonry :photos="photos" @select="select"></masonry>
+    <masonry v-show="!isSelected()" :photos="photos" @select="select"></masonry>
     <slider v-show="isSelected()" :photos="photos" :selected="selected" @close="unselect"></slider>
   </div>
 </template>
@@ -12,7 +12,10 @@
   import Masonry from './Masonry'
 
   export default {
-    components: { 'slider': Slider, 'masonry': Masonry },
+    components: {
+      'slider': Slider,
+      'masonry': Masonry
+    },
     data () {
       return {
         selected: null,

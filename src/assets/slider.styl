@@ -1,0 +1,30 @@
+.slider
+  outline none
+  .slider__current
+    width 100%
+    height calc(100vh - 43px)
+    background-repeat no-repeat
+    background-position center
+    background-size contain
+    display flex
+    animation fadeIn 0.5s
+  .slider__previous
+    height 100%
+    width 33%
+    cursor url("../assets/cursor-previous.png"), move
+  .slider__close
+    height 100%
+    width 33%
+    cursor url("../assets/cursor-close.png"), move
+  .slider__next
+    height 100%
+    width 33%
+    cursor url("../assets/cursor-next.png"), move
+
+@keyframes fadeIn
+  from {
+    opacity 0
+  }
+  to {
+    opacity 1
+  }

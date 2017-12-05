@@ -1,38 +1,37 @@
 <template>
-    <div class="masonry">
-      <div class="masonry__item" v-for="photo in photos">
-        <figure>
-          <div class="photo">
-              <img :src="photo.src" :key="photo.id">
-              <div class="photo__overlay">
-                <div class="photo__overlay__title">{{photo.title}}</div>
-              </div>
-          </div>
-          <figcaption>{{photo.title}}</figcaption>
-        </figure>
-      </div>
-    </div>
+  <div>
+    <masonry v-show="!isSelected()" :photos="photos" @select="select"></masonry>
+    <slider v-show="isSelected()" :photos="photos" :selected="selected" @close="unselect"></slider>
+  </div>
 </template>
 
 <script>
   import Flickr from '../services/Flickr'
   import Photo from '../models/Photo'
+  import Slider from './Slider'
+  import Masonry from './Masonry'
 
   export default {
+    components: {
+      'slider': Slider,
+      'masonry': Masonry
+    },
     data () {
       return {
+        selected: null,
         photos: []
       }
     },
     computed: {
-      flickr: () => new Flickr('4e5407323228a7c7851ce6d7d650a15b', '154566401@N05')
+      flickr: () => new Flickr(process.env.FLICKR_API_KEY, process.env.FLICKR_USER_ID)
     },
     created () {
       this.fetchPhotos(this.$route.params.tag)
     },
     watch: {
-      '$route' (to, from) {
+      '$route' (to) {
         this.fetchPhotos(to.params.tag)
+        this.unselect()
       }
     },
     methods: {
@@ -52,11 +51,17 @@
           }
           this.photos = photos
         })
+      },
+      select (index) {
+        this.selected = index
+      },
+      unselect () {
+        this.selected = null
+      },
+      isSelected () {
+        return this.selected != null
       }
     }
   }
 </script>
-<style lang="styl" scoped>
-  @import '../assets/variables.styl';
-  @import '../assets/gallery.styl';
-</style>
+

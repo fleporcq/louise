@@ -47,5 +47,6 @@
   }
 </script>
 <style lang="styl" scoped>
+  @import '../assets/variables.styl';
   @import '../assets/slider.styl';
 </style>

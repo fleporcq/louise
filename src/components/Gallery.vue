@@ -1,19 +1,7 @@
 <template>
   <div>
-    <div class="masonry">
-      <div class="masonry__item" v-for="(photo, index) in photos">
-        <figure>
-          <div class="photo">
-              <img :src="photo.src" :key="photo.id">
-              <div class="photo__overlay" @click="select(index)">
-                <div class="photo__overlay__title">{{photo.title}}</div>
-              </div>
-          </div>
-          <figcaption>{{photo.title}}</figcaption>
-        </figure>
-      </div>
-    </div>
-    <slider v-show="isSelected()" :photos="photos" :selected="selected" v-on:close="unselect()"></slider>
+    <masonry :photos="photos" @select="select"></masonry>
+    <slider v-show="isSelected()" :photos="photos" :selected="selected" @close="unselect"></slider>
   </div>
 </template>
 
@@ -21,9 +9,10 @@
   import Flickr from '../services/Flickr'
   import Photo from '../models/Photo'
   import Slider from './Slider'
+  import Masonry from './Masonry'
 
   export default {
-    components: { 'slider': Slider },
+    components: { 'slider': Slider, 'masonry': Masonry },
     data () {
       return {
         selected: null,
@@ -72,7 +61,4 @@
     }
   }
 </script>
-<style lang="styl" scoped>
-  @import '../assets/variables.styl';
-  @import '../assets/gallery.styl';
-</style>
+

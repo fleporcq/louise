@@ -18,7 +18,7 @@
       }
     },
     computed: {
-      flickr: () => new Flickr('4e5407323228a7c7851ce6d7d650a15b', '154566401@N05')
+      flickr: () => new Flickr(process.env.FLICKR_API_KEY, process.env.FLICKR_USER_ID)
     },
     created () {
       this.fetchTags()

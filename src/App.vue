@@ -3,29 +3,35 @@
     <div class="o-grid__cell o-grid__cell--width-fixed main-cell">
       <div class="position-fixed">
         <brand></brand>
-        <label for="menu-trigger" class="menu-trigger-label"><i class="fa fa-bars" aria-hidden="true"></i></label>
-        <input type="checkbox" id="menu-trigger" class="menu-trigger" />
-        <nav class="menu">
-          <h3 class="menu__title">WORKS</h3>
-          <tags></tags>
-          <h3 class="menu__title">ABOUT</h3>
-          <h3 class="menu__title">CONTACT</h3>
-        </nav>
+        <navigation v-show="!photo"></navigation>
+        <photo-infos v-show="photo" :photo=photo></photo-infos>
       </div>
     </div>
     <div class="o-grid__cell">
-      <router-view/>
+      <router-view @slider-change="setPhoto" />
     </div>
   </div>
 </template>
 <script>
   import Brand from './components/Brand'
-  import Tags from './components/Tags'
+  import Navigation from './components/Navigation.vue'
+  import PhotoInfos from './components/PhotoInfos.vue'
 
   export default {
     components: {
       'brand': Brand,
-      'tags': Tags
+      'navigation': Navigation,
+      'photo-infos': PhotoInfos
+    },
+    data () {
+      return {
+        photo: null
+      }
+    },
+    methods: {
+      setPhoto (photo) {
+        this.photo = photo
+      }
     }
   }
 </script>

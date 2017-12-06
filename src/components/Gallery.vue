@@ -1,7 +1,7 @@
 <template>
   <div>
     <masonry v-show="!isSelected()" :photos="photos" @select="select"></masonry>
-    <slider v-show="isSelected()" :photos="photos" :selected="selected" @close="unselect"></slider>
+    <slider v-show="isSelected()" :photos="photos" :selected="selected" @close="unselect" @change="emitSliderChange"></slider>
   </div>
 </template>
 
@@ -38,16 +38,11 @@
       fetchPhotos (tag) {
         this.flickr.searchPhotos({
           tags: tag === undefined ? '' : tag,
-          extras: 'description'
+          extras: 'description,date_taken'
         }).then(response => {
           let photos = []
           for (let photo of response.photos.photo) {
-            photos.push(new Photo(
-              photo.id,
-              photo.title,
-              photo.description._content,
-              Photo.generateFlickrSrc(photo)
-            ))
+            photos.push(Photo.createFromFlickr(photo))
           }
           this.photos = photos
         })
@@ -60,6 +55,9 @@
       },
       isSelected () {
         return this.selected != null
+      },
+      emitSliderChange (photo) {
+        this.$emit('slider-change', photo)
       }
     }
   }

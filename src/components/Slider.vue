@@ -3,7 +3,7 @@
     <div class="slider__current" v-if="current != null"
          v-bind:style="{ 'background-image': 'url(' + photos[current].src + ')' }">
       <div class="slider__previous" @click="previous"></div>
-      <div class="slider__close" @click="close"></div>
+      <div class="slider__close" @click="emitClose"></div>
       <div class="slider__next" @click="next"></div>
     </div>
   </div>
@@ -30,6 +30,7 @@
       'selected' () {
         this.current = this.selected
         this.$refs.slider.focus()
+        this.emitChange()
       }
     },
     methods: {
@@ -39,6 +40,7 @@
         } else {
           this.current = this.photos.length - 1
         }
+        this.emitChange()
       },
       next () {
         if (this.current < this.photos.length - 1) {
@@ -46,9 +48,14 @@
         } else {
           this.current = 0
         }
+        this.emitChange()
       },
-      close () {
+      emitChange () {
+        this.$emit('change', this.photos[this.current])
+      },
+      emitClose () {
         this.$emit('close')
+        this.$emit('change', null)
       }
     }
   }

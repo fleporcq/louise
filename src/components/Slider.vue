@@ -1,6 +1,7 @@
 <template>
   <div class="slider" ref="slider" tabindex="0" @keyup.27="close" @keyup.37="previous" @keyup.39="next">
-    <div class="slider__current" v-if="current != null" v-bind:style="{ 'background-image': 'url(' + photos[current].src + ')' }">
+    <div class="slider__current" v-if="current != null"
+         v-bind:style="{ 'background-image': 'url(' + photos[current].src + ')' }">
       <div class="slider__previous" @click="previous"></div>
       <div class="slider__close" @click="close"></div>
       <div class="slider__next" @click="next"></div>
@@ -35,11 +36,15 @@
       previous () {
         if (this.current > 0) {
           this.current--
+        } else {
+          this.current = this.photos.length - 1
         }
       },
       next () {
         if (this.current < this.photos.length - 1) {
           this.current++
+        } else {
+          this.current = 0
         }
       },
       close () {

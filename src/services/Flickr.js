@@ -19,7 +19,7 @@ export default class Flickr {
     let defaultParams = {
       user_id: this.userId,
       tags: '',
-      extras: 'description'
+      media: 'photos'
     }
     return http({
       uri: this.urlGenerator.getUrl('flickr.photos.search', Object.assign(defaultParams, params)),

@@ -38,10 +38,11 @@
       fetchPhotos (tag) {
         this.flickr.searchPhotos({
           tags: tag === undefined ? '' : tag,
-          extras: 'description,date_taken'
+          extras: 'original_format,description,date_taken'
         }).then(response => {
           let photos = []
           for (let photo of response.photos.photo) {
+            console.log(photo)
             photos.push(Photo.createFromFlickr(photo))
           }
           this.photos = photos

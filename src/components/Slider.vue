@@ -1,5 +1,5 @@
 <template>
-  <div class="slider" ref="slider" tabindex="0" @keyup.27="close" @keyup.37="previous" @keyup.39="next">
+  <div class="slider" ref="slider" tabindex="0" @keyup.27="emitClose" @keyup.37="previous" @keyup.39="next">
     <div class="slider__current" v-if="current != null"
          v-bind:style="{ 'background-image': 'url(' + photos[current].src + ')' }">
       <div class="slider__previous" @click="previous"></div>

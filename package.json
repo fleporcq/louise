@@ -16,7 +16,8 @@
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "vue": "^2.5.2",
-    "vue-infinite-loading": "^2.2.2",
+    "vue-infinite-scroll": "^2.0.2",
+    "vue-masonry-css": "^1.0.0",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {

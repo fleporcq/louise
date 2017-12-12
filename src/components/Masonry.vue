@@ -1,66 +1,45 @@
 <template>
-    <div class="masonry">
-      <div class="masonry__item" v-for="(photo, index) in list">
-        <figure>
-          <div class="photo">
-            <img :src="photo.src" :key="photo.id">
-            <div class="photo__overlay" @click="select(index)">
-              <div class="photo__overlay__title">{{photo.title}}</div>
-            </div>
+  <masonry class="masonry" :cols="{default: 3, 1248: 2, 1024: 1}" :gutter="25"  v-infinite-scroll="loadMore" infinite-scroll-disabled="disabled" infinite-scroll-distance="200">
+      <figure class="masonry__item" v-for="(photo, index) in photos">
+        <div class="photo">
+          <img style="" :src="photo.src" :key="photo.id">
+          <div class="photo__overlay" @click="select(index)">
+            <div class="photo__overlay__title">{{photo.title}}</div>
           </div>
-          <figcaption>{{photo.title}}</figcaption>
-        </figure>
-      </div>
-      <infinite-loading @infinite="infiniteHandler" ref="infiniteLoading">
-        <span slot="no-results"></span>
-      </infinite-loading>
-    </div>
+        </div>
+        <figcaption>{{photo.title}}</figcaption>
+      </figure>
+  </masonry>
 </template>
 
-
 <script>
-  import InfiniteLoading from 'vue-infinite-loading'
+  import infiniteScroll from 'vue-infinite-scroll'
 
   export default {
-    components: {
-      'infinite-loading': InfiniteLoading
-    },
-    data () {
-      return {
-        list: []
-      }
-    },
+
+    directives: {infiniteScroll},
     props: {
+      disabled: {
+        type: Boolean,
+        required: true
+      },
       photos: {
         type: Array,
         required: true
-      }
-    },
-    watch: {
-      'photos' () {
-        this.list = []
-        this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset')
+      },
+      total: {
+        type: Number,
+        required: false
       }
     },
     methods: {
       select (index) {
         this.$emit('select', index)
       },
-      infiniteHandler ($state) {
-        setTimeout(() => {
-          const temp = []
-          let i = 0
-          for (i = this.list.length; i <= this.list.length + 10 - 1 && i <= this.photos.length - 1; i++) {
-            temp.push(this.photos[i])
-          }
-          this.list = this.list.concat(temp)
-          console.log(i)
-          if (i === this.photos.length) {
-            $state.complete()
-          } else {
-            $state.loaded()
-          }
-        }, 500)
+      loadMore () {
+        if (this.photos.length < this.total) {
+          this.$emit('loadMore')
+        }
       }
     }
   }

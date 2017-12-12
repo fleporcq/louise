@@ -1,7 +1,8 @@
 <template>
   <div>
-    <masonry v-show="!isSelected()" :photos="photos" @select="select"></masonry>
-    <slider v-show="isSelected()" :photos="photos" :selected="selected" @close="unselect" @change="emitSliderChange"></slider>
+    <masonry v-show="!isSelected()" :disabled="isSelected()" :photos="photos" :total="total" @select="select" @loadMore="loadMore"></masonry>
+    <slider v-show="isSelected()" :photos="photos" :selected="selected" @close="unselect"
+            @change="emitSliderChange"></slider>
   </div>
 </template>
 
@@ -18,34 +19,56 @@
     },
     data () {
       return {
+        tag: null,
+        page: 1,
+        perPage: 10,
         selected: null,
-        photos: []
+        photos: [],
+        total: null
       }
     },
     computed: {
       flickr: () => new Flickr(process.env.FLICKR_API_KEY, process.env.FLICKR_USER_ID)
     },
     created () {
-      this.fetchPhotos(this.$route.params.tag)
+      this.tag = this.$route.params.tag
+      this.loadPhotos()
     },
     watch: {
       '$route' (to) {
-        this.fetchPhotos(to.params.tag)
-        this.unselect()
+        this.reset(to.params.tag)
       }
     },
     methods: {
-      fetchPhotos (tag) {
+      reset (tag) {
+        this.photos = []
+        this.total = null
+        this.tag = tag
+        this.page = 1
+        this.unselect()
+        this.loadPhotos()
+      },
+      loadMore () {
+        if (this.photos.length < this.total) {
+          this.page++
+          this.loadPhotos()
+        }
+      },
+      loadPhotos () {
         this.flickr.searchPhotos({
-          tags: tag === undefined ? '' : tag,
-          extras: 'original_format,description,date_taken'
+          tags: this.tag === undefined ? '' : this.tag,
+          extras: 'original_format,description,date_taken',
+          per_page: this.perPage,
+          page: this.page
         }).then(response => {
           let photos = []
+          if (this.total == null) {
+            this.total = parseInt(response.photos.total)
+          }
           for (let photo of response.photos.photo) {
-            console.log(photo)
             photos.push(Photo.createFromFlickr(photo))
           }
-          this.photos = photos
+          this.photos = this.photos.concat(photos)
         })
       },
       select (index) {

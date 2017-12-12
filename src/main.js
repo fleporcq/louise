@@ -3,9 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-
+import VueMasonry from 'vue-masonry-css'
 Vue.config.productionTip = false
-
+Vue.use(VueMasonry)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

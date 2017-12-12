@@ -6,6 +6,15 @@ export default class Flickr {
     this.urlGenerator = new FlickrApiUrlGenerator(apiKey)
     this.userId = userId
   }
+  getPeopleInfo (params) {
+    let defaultParams = {
+      user_id: this.userId
+    }
+    return http({
+      uri: this.urlGenerator.getUrl('flickr.people.getInfo', Object.assign(defaultParams, params)),
+      json: true
+    })
+  }
   getProfile (params) {
     let defaultParams = {
       user_id: this.userId
